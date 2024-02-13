@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "552186026922",
+    "project_id": "serenitynest-6fdb1",
+    "storage_bucket": "serenitynest-6fdb1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552186026922:android:544d0555069e45734829d3",
+        "android_client_info": {
+          "package_name": "com.KevinB.serenity_nest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDfa0ROmyDkxdW6OtOujIpIicS7mEXn0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
