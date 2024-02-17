@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class QuoteOfTheDayPage extends StatelessWidget {
+  const QuoteOfTheDayPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quote of the Day'),
+        title: const Text('Quote of the Day'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Quote of the Day Page'),
       ),
     );
