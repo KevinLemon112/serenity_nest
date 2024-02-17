@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'create_account_page.dart'; // Import the CreateAccountPage class
+import 'create_account_page.dart';
+import 'main_lobby_page.dart'; // Import the Main Lobby class
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -36,6 +37,10 @@ class LoginScreen extends StatelessWidget {
                     password: passwordController.text,
                   );
                   // Handle successful authentication, e.g., navigate to another screen
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainLobbyPage()),
+                  );
                 } catch (e) {
                   // Handle authentication errors, e.g., display error message to user
                   print('Error signing in: $e');
