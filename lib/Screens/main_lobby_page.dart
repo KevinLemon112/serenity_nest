@@ -5,14 +5,16 @@ import 'quote_of_the_day_page.dart'; // Import the QuoteOfTheDayPage class
 import 'resources_page.dart'; // Import the ResourcesPage class
 
 class MainLobbyPage extends StatelessWidget {
+  const MainLobbyPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0), // Set the preferred height of the app bar
+        preferredSize: const Size.fromHeight(80.0), // Set the preferred height of the app bar
         child: Container(
-          padding: EdgeInsets.only(top: 1.0), // Adjust top padding here
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.only(top: 1.0), // Adjust top padding here
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: NetworkImage(
                 'https://wallpapercave.com/wp/wp5896397.jpg',
@@ -20,7 +22,7 @@ class MainLobbyPage extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          child: Center(
+          child: const Center(
             child: Text(
               'Main Lobby',
               style: TextStyle(
@@ -33,7 +35,7 @@ class MainLobbyPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
               'https://www.pixelstalk.net/wp-content/uploads/images3/Star-Wallpaper-for-iPhone-8.jpg',
@@ -52,14 +54,14 @@ class MainLobbyPage extends StatelessWidget {
                     // Navigate to MeditationPage
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MeditationPage()),
+                      MaterialPageRoute(builder: (context) => const MeditationPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8), // Adjust the padding
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 8), // Adjust the padding
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -73,25 +75,25 @@ class MainLobbyPage extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(width: 10),
-                      Text('Meditation'),
+                      const SizedBox(width: 10),
+                      const Text('Meditation'),
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     // Navigate to JournalingPage
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => JournalingPage()),
+                      MaterialPageRoute(builder: (context) => const JournalingPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8), // Adjust the padding
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 8), // Adjust the padding
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -105,25 +107,25 @@ class MainLobbyPage extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(width: 10),
-                      Text('Journaling'),
+                      const SizedBox(width: 10),
+                      const Text('Journaling'),
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     // Navigate to QuoteOfTheDayPage
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => QuoteOfTheDayPage()),
+                      MaterialPageRoute(builder: (context) => const QuoteOfTheDayPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8), // Adjust the padding
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 8), // Adjust the padding
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -137,25 +139,25 @@ class MainLobbyPage extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(width: 10),
-                      Text('Quote of\nthe Day'),
+                      const SizedBox(width: 10),
+                      const Text('Quote of\nthe Day'),
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     // Navigate to ResourcesPage
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResourcesPage()),
+                      MaterialPageRoute(builder: (context) => const ResourcesPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8), // Adjust the padding
+                    padding: const EdgeInsets.fromLTRB(8, 8, 8, 8), // Adjust the padding
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -169,8 +171,8 @@ class MainLobbyPage extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(width: 10),
-                      Text('Resources'),
+                      const SizedBox(width: 10),
+                      const Text('Resources'),
                     ],
                   ),
                 ),

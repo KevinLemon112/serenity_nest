@@ -9,11 +9,13 @@ class CreateAccountPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repeatPasswordController = TextEditingController();
 
+  CreateAccountPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Account'),
+        title: const Text('Create Account'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -22,32 +24,32 @@ class CreateAccountPage extends StatelessWidget {
           children: <Widget>[
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             TextField(
               controller: usernameController,
-              decoration: InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(labelText: 'Username'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             TextField(
               controller: repeatPasswordController,
-              decoration: InputDecoration(labelText: 'Repeat Password'),
+              decoration: const InputDecoration(labelText: 'Repeat Password'),
               obscureText: true,
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () async {
                 // Validate email
                 if (!isValidEmail(emailController.text)) {
                   // Show error message for invalid email
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Please enter a valid email'),
                   ));
                   return;
@@ -56,7 +58,7 @@ class CreateAccountPage extends StatelessWidget {
                 // Validate password match
                 if (passwordController.text != repeatPasswordController.text) {
                   // Show error message for password mismatch
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Passwords do not match'),
                   ));
                   return;
@@ -77,7 +79,7 @@ class CreateAccountPage extends StatelessWidget {
                   // Navigate to Main Lobby Page after successful account creation
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => MainLobbyPage()),
+                    MaterialPageRoute(builder: (context) => const MainLobbyPage()),
                   );
                 } catch (e) {
                   // Handle account creation errors
@@ -100,7 +102,7 @@ class CreateAccountPage extends StatelessWidget {
                   );
                 }
               },
-              child: Text('Create Account'),
+              child: const Text('Create Account'),
             ),
           ],
         ),
