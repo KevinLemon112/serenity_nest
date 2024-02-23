@@ -1,16 +1,35 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class MeditationPage extends StatefulWidget {
-  const MeditationPage({super.key});
+  const MeditationPage({Key? key}) : super(key: key);
 
   @override
-  _MeditationPageState createState() => _MeditationPageState();
+  MeditationPageState createState() => MeditationPageState();
 }
 
-class _MeditationPageState extends State<MeditationPage> {
+class MeditationPageState extends State<MeditationPage> {
   int? _selectedDuration; // Default duration is null
   String? _selectedSound; // Default sound is null
   bool _chosen = false; // Tracks if both duration and sound are chosen
+  late Timer _timer;
+  late int _remainingTimeInSeconds;
+  late AudioPlayer _audioPlayer;
+  bool _isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _remainingTimeInSeconds = 0;
+    _audioPlayer = AudioPlayer();
+    _audioPlayer.onPlayerStateChanged.listen((event) {
+      if (event == PlayerState.completed) {
+        _audioPlayer.stop();
+        _isPlaying = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,71 +51,115 @@ class _MeditationPageState extends State<MeditationPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 _chosen
-                    ? const SizedBox.shrink()
-                    : DropdownButton<int>(
-                  value: _selectedDuration,
-                  onChanged: (int? value) {
-                    setState(() {
-                      _selectedDuration = value;
-                      _chosen = _selectedSound != null && _selectedDuration != null;
-                    });
-                  },
-                  style: const TextStyle(color: Colors.white), // Set text color
-                  dropdownColor: Colors.black, // Set dropdown background color
-                  items: const <DropdownMenuItem<int>>[
-                    DropdownMenuItem<int>(
-                      value: 3,
-                      child: Text('3 Minutes'),
+                    ? Column(
+                  children: [
+                    Text(
+                      'Selected Sound: $_selectedSound',
+                      style: const TextStyle(color: Colors.white, fontSize: 24),
                     ),
-                    DropdownMenuItem<int>(
-                      value: 5,
-                      child: Text('5 Minutes'),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Time remaining: ${_formatDuration(_remainingTimeInSeconds)}',
+                      style: TextStyle(color: _remainingTimeInSeconds > 0 ? Colors.white : Colors.red, fontSize: 24),
                     ),
-                    DropdownMenuItem<int>(
-                      value: 10,
-                      child: Text('10 Minutes'),
-                    ),
-                    DropdownMenuItem<int>(
-                      value: 15,
-                      child: Text('15 Minutes'),
-                    ),
-                    DropdownMenuItem<int>(
-                      value: 20,
-                      child: Text('20 Minutes'),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Reset the timer and start audio playback
+                        setState(() {
+                          _remainingTimeInSeconds = _selectedDuration! * 60; // Convert minutes to seconds
+                          _startTimer();
+                          _startAudio();
+                        });
+                      },
+                      child: const Text('Reset Timer'),
                     ),
                   ],
+                )
+                    : Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: DropdownButton<int>(
+                    value: _selectedDuration,
+                    onChanged: (int? value) {
+                      setState(() {
+                        _selectedDuration = value;
+                        _chosen = _selectedDuration != null;
+                        if (true) {
+                          _remainingTimeInSeconds = _selectedDuration! * 60;
+                          _startTimer();
+                          _startAudio();
+                        }
+                      });
+                    },
+                    style: const TextStyle(color: Colors.white, fontSize: 18), // Set text color and size
+                    dropdownColor: Colors.black, // Set dropdown background color
+                    items: const <DropdownMenuItem<int>>[
+                      DropdownMenuItem<int>(
+                        value: 3,
+                        child: Text('3 Minutes'),
+                      ),
+                      DropdownMenuItem<int>(
+                        value: 5,
+                        child: Text('5 Minutes'),
+                      ),
+                      DropdownMenuItem<int>(
+                        value: 10,
+                        child: Text('10 Minutes'),
+                      ),
+                      DropdownMenuItem<int>(
+                        value: 15,
+                        child: Text('15 Minutes'),
+                      ),
+                      DropdownMenuItem<int>(
+                        value: 20,
+                        child: Text('20 Minutes'),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
-                _chosen
-                    ? const SizedBox.shrink()
-                    : DropdownButton<String>(
-                  value: _selectedSound,
-                  onChanged: (String? value) {
-                    setState(() {
-                      _selectedSound = value;
-                      _chosen = _selectedSound != null && _selectedDuration != null;
-                    });
-                  },
-                  style: const TextStyle(color: Colors.white), // Set text color
-                  dropdownColor: Colors.black, // Set dropdown background color
-                  items: const <DropdownMenuItem<String>>[
-                    DropdownMenuItem<String>(
-                      value: 'Rain',
-                      child: Text('Rain'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: 'Wind',
-                      child: Text('Wind'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: 'Garden',
-                      child: Text('Garden'),
-                    ),
-                    DropdownMenuItem<String>(
-                      value: 'No Noise',
-                      child: Text('No Noise'),
-                    ),
-                  ],
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: DropdownButton<String>(
+                    value: _selectedSound,
+                    onChanged: (String? value) {
+                      setState(() {
+                        _selectedSound = value;
+                        _chosen = _selectedSound != null && _selectedDuration != null;
+                        if (_chosen) {
+                          _startAudio();
+                        }
+                      });
+                    },
+                    style: const TextStyle(color: Colors.white, fontSize: 18), // Set text color and size
+                    dropdownColor: Colors.black, // Set dropdown background color
+                    items: const <DropdownMenuItem<String>>[
+                      DropdownMenuItem<String>(
+                        value: 'Rain',
+                        child: Text('Rain'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Wind',
+                        child: Text('Wind'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'Garden',
+                        child: Text('Garden'),
+                      ),
+                      DropdownMenuItem<String>(
+                        value: 'No Noise',
+                        child: Text('No Noise'),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -104,6 +167,13 @@ class _MeditationPageState extends State<MeditationPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   String _getImageForSound(String sound) {
@@ -116,6 +186,52 @@ class _MeditationPageState extends State<MeditationPage> {
         return 'https://wallpapers.com/images/hd/enchanted-garden-1920-x-1080-wallpaper-ojek6zerpim27rv6.jpg'; // Replace with the URL of your garden background image
       default:
         return 'https://www.pixelstalk.net/wp-content/uploads/images3/Star-Wallpaper-for-iPhone-8.jpg'; // Replace with the URL of your default background image
+    }
+  }
+
+  String _formatDuration(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remainingTimeInSeconds > 0) {
+        setState(() {
+          _remainingTimeInSeconds--;
+        });
+      } else {
+        _timer.cancel();
+      }
+    });
+
+    // Start the timer immediately if the remaining time is greater than 0
+    if (_remainingTimeInSeconds > 0) {
+      _timer.tick; // Simulate a tick to start the timer
+    }
+  }
+
+  void _startAudio() async {
+    if (_selectedSound != null) {
+      final audioUrl = _getAudioUrlForSound(_selectedSound!);
+      await _audioPlayer.play(audioUrl as dynamic);
+      _isPlaying = true;
+    }
+  }
+
+  String _getAudioUrlForSound(String sound) {
+    // Implement logic to return the URL of the audio file associated with the selected sound
+    // For example:
+    switch (sound) {
+      case 'Rain':
+        return 'https://www.soundjay.com/nature/sounds/rain-01.mp3';
+      case 'Wind':
+        return 'https://www.soundjay.com/nature/sounds/wind-1.mp3';
+      case 'Garden':
+        return 'https://www.example.com/garden_audio.mp3';
+      default:
+        return ''; // Handle default case
     }
   }
 }

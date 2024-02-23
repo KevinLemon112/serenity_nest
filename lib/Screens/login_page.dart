@@ -97,8 +97,8 @@ class LoginScreen extends StatelessWidget {
                   );
                 }
               },
-              icon: Icon(Icons.login),
-              label: Text('Sign in with Google'),
+              icon: const Icon(Icons.login),
+              label: const Text('Sign in with Google'),
             ),
           ],
         ),
