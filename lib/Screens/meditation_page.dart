@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class MeditationPage extends StatefulWidget {
-  const MeditationPage({Key? key});
-
+  const MeditationPage({super.key});
   @override
   MeditationPageState createState() => MeditationPageState();
 }
@@ -16,7 +15,6 @@ class MeditationPageState extends State<MeditationPage> {
   late Timer _timer;
   late int _remainingTimeInSeconds;
   late AudioPlayer _audioPlayer;
-  bool _isPlaying = false;
   bool _soundSelected = false; // Tracks if a sound is selected
 
   @override
@@ -27,7 +25,6 @@ class MeditationPageState extends State<MeditationPage> {
     _audioPlayer.onPlayerStateChanged.listen((event) {
       if (event == PlayerState.completed) {
         _audioPlayer.stop();
-        _isPlaying = false;
       }
     });
   }
@@ -43,7 +40,7 @@ class MeditationPageState extends State<MeditationPage> {
         children: [
           // Background image
           Image.network(
-            _chosen ? _getImageForSound(_selectedSound!) : 'https://wallpapercave.com/wp/wp5896397.jpg',
+            _chosen ? _getImageForSound(_selectedSound!) : 'https://storage.prompt-hunt.workers.dev/clgipn2na0019jz08n77lxw6h_0.jpeg',
             fit: BoxFit.cover,
           ),
           // Content
@@ -153,7 +150,7 @@ class MeditationPageState extends State<MeditationPage> {
                       Text(
                         'Selected Sound: $_selectedSound',
                         style: TextStyle(
-                          color: _selectedSound == 'Rain' || _selectedSound == 'Wind'
+                          color: (_selectedSound == 'Rain' || _selectedSound == 'Wind') && _remainingTimeInSeconds > 0
                               ? Colors.black
                               : Colors.white,
                           fontSize: 24,
@@ -163,7 +160,7 @@ class MeditationPageState extends State<MeditationPage> {
                       Text(
                         'Time remaining: ${_formatDuration(_remainingTimeInSeconds)}',
                         style: TextStyle(
-                          color: _selectedSound == 'Rain' || _selectedSound == 'Wind'
+                          color: (_selectedSound == 'Rain' || _selectedSound == 'Wind') && _remainingTimeInSeconds > 0
                               ? Colors.black
                               : _remainingTimeInSeconds > 0 ? Colors.white : Colors.red,
                           fontSize: 24,
@@ -176,6 +173,7 @@ class MeditationPageState extends State<MeditationPage> {
                           setState(() {
                             _remainingTimeInSeconds = _selectedDuration! * 60; // Convert minutes to seconds
                             _timer.cancel();
+                            _resetAudio();
                             _startTimer();
                             _startAudio();
                           });
@@ -218,6 +216,13 @@ class MeditationPageState extends State<MeditationPage> {
     return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
+  void _resetAudio() async {
+      final audioPath = _getAudioPathForSound(_selectedSound!);
+      // Stop the audio if it's playing
+      await _audioPlayer.stop();
+      await _audioPlayer.play(AssetSource(audioPath!));
+  }
+
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingTimeInSeconds > 0) {
@@ -234,23 +239,27 @@ class MeditationPageState extends State<MeditationPage> {
   }
 
   void _startAudio() async {
+    await _audioPlayer.stop();
     if (_selectedSound != null) {
-      final audioUrl = _getAudioUrlForSound(_selectedSound!);
-      await _audioPlayer.play(audioUrl as Source);
-      _isPlaying = true;
+      final audioPath = _getAudioPathForSound(_selectedSound!);
+      if (audioPath != null) {
+          await _audioPlayer.play(AssetSource(audioPath));
+          await _audioPlayer.setReleaseMode(ReleaseMode.loop);
+      }
     }
   }
 
-  String _getAudioUrlForSound(String sound) {
+  String? _getAudioPathForSound(String sound) {
     switch (sound) {
       case 'Rain':
-        return 'https://www.soundjay.com/nature/sounds/rain-01.mp3';
+        return 'rain.mp3'; // Adjust the path based on the actual location of your audio files
       case 'Wind':
-        return 'https://www.soundjay.com/nature/sounds/wind-1.mp3';
+        return 'wind.mp3';
       case 'Garden':
-        return 'https://www.example.com/garden_audio.mp3';
-      default:
-        return '';
+        return 'garden.mp3';
+      case 'No Noise':
+        return null;
     }
+    return null;
   }
 }
