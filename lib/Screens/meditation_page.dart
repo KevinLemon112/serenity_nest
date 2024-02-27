@@ -231,6 +231,10 @@ class MeditationPageState extends State<MeditationPage> {
         });
       } else {
         _timer.cancel();
+        // Stop the audio if it's playing
+        _audioPlayer.stop();
+        // Play the "bell.mp3" asset file
+        _audioPlayer.play(AssetSource('bell.mp3'));
       }
     });
     if (_remainingTimeInSeconds > 0) {
