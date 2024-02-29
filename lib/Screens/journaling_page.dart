@@ -92,51 +92,78 @@ class _JournalingPageState extends State<JournalingPage> {
       appBar: AppBar(
         title: const Text('Journaling'),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                  'https://i.pinimg.com/736x/b5/7a/d4/b57ad4feb1bc7dae03cac241c752c924.jpg',
+                ),
+                fit: BoxFit.cover,
+              ),
+            ),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextButton(
-                    onPressed: () => _selectDate(context),
-                    child: Text(
-                      '${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () => _selectDate(context),
+                        child: Text(
+                          '${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black, // Change to your preferred text color
+                          ),
+                        ),
                       ),
+                      const Icon(Icons.calendar_today),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: _textEditingController,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      hintText: 'Write your journal entry here...',
+                      border: OutlineInputBorder(),
+                      contentPadding: EdgeInsets.all(10),
                     ),
                   ),
-                  Icon(Icons.calendar_today),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _saveJournalEntry,
+                    child: const Text('Save'),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Journal Entry:',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    _journalEntry,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 200), // Add extra space to prevent overflow when keyboard is opened
                 ],
               ),
-              TextField(
-                controller: _textEditingController,
-                maxLines: null,
-                decoration: InputDecoration(
-                  hintText: 'Write your journal entry here...',
-                ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _saveJournalEntry,
-                child: Text('Save'),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Journal Entry:',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(_journalEntry),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -150,7 +177,7 @@ class _JournalingPageState extends State<JournalingPage> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: JournalingPage(),
   ));
 }

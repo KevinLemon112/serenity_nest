@@ -10,7 +10,7 @@ class QuoteOfTheDayPage extends StatefulWidget {
 }
 
 class _QuoteOfTheDayPageState extends State<QuoteOfTheDayPage> {
-  late String _quote;
+  late String _quote = '';
 
   @override
   void initState() {
