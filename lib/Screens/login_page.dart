@@ -4,29 +4,63 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'create_account_page.dart';
 import 'main_lobby_page.dart'; // Import the Main Lobby class
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isDarkMode = false;
 
-  LoginScreen({Key? key});
+  void toggleDarkMode() {
+    setState(() {
+      isDarkMode = !isDarkMode;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = isDarkMode ? Colors.black : Colors.white;
+    Color textColor = isDarkMode ? Colors.white : Colors.black;
+    Color buttonColor = isDarkMode ? Colors.grey.shade600 : Colors.blue;
+    Color createAccountButtonColor = isDarkMode ? Colors.grey.shade600 : Colors.yellow;
+    Color googleButtonColor = isDarkMode ? Colors.grey.shade600 : Colors.green;
+    Color textFieldBackground = isDarkMode ? Colors.grey.shade600 : Colors.grey.shade100;
+    Color textFieldTextColor = isDarkMode ? Colors.white : Colors.black;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'SerenityNest Login',
-          style: TextStyle(
-            fontSize: 35.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
+        title: Row(
+          children: [
+            Text(
+              'SerenityNest Login',
+              style: TextStyle(
+                fontSize: 29.0,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
+            ),
+            IconButton(
+              onPressed: toggleDarkMode,
+              icon: Icon(
+                isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                color: textColor,
+              ),
+            ),
+          ],
         ),
+        backgroundColor: isDarkMode ? Colors.grey.shade800 : Colors.white,
       ),
       body: Stack(
         children: [
-          // Background container with animated elements
-          AnimatedBackground(),
+          // Animated background container
+          Container(
+            color: backgroundColor,
+          ),
           // Content of the login screen
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -36,19 +70,34 @@ class LoginScreen extends StatelessWidget {
                 // Your existing login fields
                 TextField(
                   controller: emailController,
-                  decoration: const InputDecoration(labelText: 'Email/Username'),
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    filled: true,
+                    fillColor: textFieldBackground,
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(color: textColor),
+                  ),
+                  style: TextStyle(color: textFieldTextColor),
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
                   controller: passwordController,
-                  decoration: const InputDecoration(labelText: 'Password'),
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    filled: true,
+                    fillColor: textFieldBackground,
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(color: textColor),
+                  ),
                   obscureText: true,
+                  style: TextStyle(color: textFieldTextColor),
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      UserCredential userCredential =
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
                         email: emailController.text,
                         password: passwordController.text,
                       );
@@ -78,7 +127,13 @@ class LoginScreen extends StatelessWidget {
                       );
                     }
                   },
-                  child: const Text('Login'),
+                  child: Text(
+                    'Login',
+                    style: TextStyle(color: textColor),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: buttonColor, // Button color
+                  ),
                 ),
                 TextButton(
                   onPressed: () {
@@ -88,7 +143,17 @@ class LoginScreen extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => CreateAccountPage()),
                     );
                   },
-                  child: const Text('Create Account'),
+                  child: Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      color: createAccountButtonColor, // Button color
+                    ),
+                    child: Text(
+                      'Create Account',
+                      style: TextStyle(color: textColor),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 16.0),
                 // Google sign-in button
@@ -109,8 +174,11 @@ class LoginScreen extends StatelessWidget {
                       );
                     }
                   },
-                  icon: const Icon(Icons.login),
-                  label: const Text('Sign in with Google'),
+                  icon: Icon(Icons.login, color: textColor),
+                  label: Text('Sign in with Google', style: TextStyle(color: textColor)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: googleButtonColor, // Button color
+                  ),
                 ),
               ],
             ),
@@ -121,72 +189,8 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class AnimatedBackground extends StatefulWidget {
-  const AnimatedBackground({Key? key}) : super(key: key);
-
-  @override
-  _AnimatedBackgroundState createState() => _AnimatedBackgroundState();
-}
-
-class _AnimatedBackgroundState extends State<AnimatedBackground> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 20), // Adjust duration as needed
-    )..repeat(reverse: true);
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size.infinite,
-      painter: BackgroundPainter(animation: _animation),
-    );
-  }
-}
-
-class BackgroundPainter extends CustomPainter {
-  final Animation<double> animation;
-
-  BackgroundPainter({required this.animation});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    // Paint background color
-    final backgroundPaint = Paint()..color = Colors.blue.shade400.withOpacity(0.5);
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), backgroundPaint);
-
-    // Calculate positions based on animation value
-    final offset = Offset(size.width * animation.value, size.height / 2);
-
-    // Draw sunset
-    final sunPaint = Paint()..color = Colors.orange.shade400;
-    canvas.drawCircle(offset, 100 + (animation.value * 20), sunPaint);
-
-    // Draw birds
-    final birdPaint = Paint()..color = Colors.black;
-    final bird1 = Offset(size.width * 0.1, size.height * 0.1);
-    final bird2 = Offset(size.width * 0.2, size.height * 0.15);
-    final bird3 = Offset(size.width * 0.15, size.height * 0.3);
-    canvas.drawCircle(bird1, 10, birdPaint);
-    canvas.drawCircle(bird2, 10, birdPaint);
-    canvas.drawCircle(bird3, 10, birdPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
+void main() {
+  runApp(MaterialApp(
+    home: LoginScreen(),
+  ));
 }

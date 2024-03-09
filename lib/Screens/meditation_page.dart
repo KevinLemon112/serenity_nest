@@ -33,7 +33,13 @@ class MeditationPageState extends State<MeditationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Meditation'),
+        title: Text(
+          'Meditation',
+          style: TextStyle(
+            fontSize: 29,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Stack(
         fit: StackFit.expand,

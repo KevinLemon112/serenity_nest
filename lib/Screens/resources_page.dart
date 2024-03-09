@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResourcesPage extends StatelessWidget {
-  const ResourcesPage({super.key});
+  const ResourcesPage({Key? key});
 
   void _launchURL(String url) async {
     Uri uri = Uri.parse(url);
@@ -17,75 +17,91 @@ class ResourcesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Resources'),
+        title: Text(
+          'Resources',
+          style: TextStyle(
+            fontSize: 29,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20), // Spacer between sections
-                    // Videos section
-                    const Text(
-                      'Videos',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20), // Spacer between title and buttons
-                    // Button for first YouTube video
-                    _buildVideoButton(
-                      'https://www.youtube.com/watch?v=NQcYZplTXnQ',
-                      'Mental Health Wellness Tips\nBy: Psych Hub',
-                    ),
-                    const SizedBox(height: 20), // Spacer between buttons
-                    // Button for second YouTube video
-                    _buildVideoButton(
-                      'https://www.youtube.com/watch?v=IY2y6kH745A',
-                      'How to Have a Better Mental Health\nBy: Pysch2Go',
-                    ),
-                    const SizedBox(height: 20), // Spacer between buttons
-                    // Button for third YouTube video
-                    _buildVideoButton(
-                      'https://www.youtube.com/watch?v=w4gIJVnXhsY',
-                      'The UNSPOKEN Secret To IMPROVE Mental Health!\nBy: Improvement Pill',
-                    ),
-                  ],
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(
+              'https://wallpapercave.com/wp/wp11299772.jpg',
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20), // Spacer between sections
+                      // Videos section
+                      const Text(
+                        'Videos',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      const SizedBox(height: 20), // Spacer between title and buttons
+                      // Button for first YouTube video
+                      _buildVideoButton(
+                        'https://www.youtube.com/watch?v=NQcYZplTXnQ',
+                        'Mental Health Wellness Tips\nBy: Psych Hub',
+                      ),
+                      const SizedBox(height: 20), // Spacer between buttons
+                      // Button for second YouTube video
+                      _buildVideoButton(
+                        'https://www.youtube.com/watch?v=IY2y6kH745A',
+                        'How to Have a Better Mental Health\nBy: Pysch2Go',
+                      ),
+                      const SizedBox(height: 20), // Spacer between buttons
+                      // Button for third YouTube video
+                      _buildVideoButton(
+                        'https://www.youtube.com/watch?v=w4gIJVnXhsY',
+                        'The UNSPOKEN Secret To IMPROVE Mental Health!\nBy: Improvement Pill',
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 20), // Spacer between sections
-              Expanded(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20), // Spacer between sections
-                    // Articles section
-                    const Text(
-                      'Articles',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 20), // Spacer between title and buttons
-                    // Button for first article
-                    _buildArticleButton(
-                      'https://www.medicalnewstoday.com/articles/154543',
-                      'What is mental health?\nBy: Adam Felman and Rachel Ann Tee-Melegrito',
-                    ),
-                    const SizedBox(height: 20), // Spacer between buttons
-                    // Button for second article
-                    _buildArticleButton(
-                      'https://www.mind.org.uk/information-support/tips-for-everyday-living/wellbeing/',
-                      'How to improve your mental wellbeing\nBy: Mind.org',
-                    ),
-                    const SizedBox(height: 20), // Spacer between buttons
-                    // Button for third article
-                    _buildArticleButton(
-                      'https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/five-steps-to-mental-wellbeing/',
-                      '5 steps to mental wellbeing\nBy: NHS.uk',
-                    ),
-                  ],
+                const SizedBox(width: 20), // Spacer between sections
+                Expanded(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20), // Spacer between sections
+                      // Articles section
+                      const Text(
+                        'Articles',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      const SizedBox(height: 20), // Spacer between title and buttons
+                      // Button for first article
+                      _buildArticleButton(
+                        'https://www.medicalnewstoday.com/articles/154543',
+                        'What is mental health?\nBy: Adam Felman and Rachel Ann Tee-Melegrito',
+                      ),
+                      const SizedBox(height: 20), // Spacer between buttons
+                      // Button for second article
+                      _buildArticleButton(
+                        'https://www.mind.org.uk/information-support/tips-for-everyday-living/wellbeing/',
+                        'How to improve your mental wellbeing\nBy: Mind.org',
+                      ),
+                      const SizedBox(height: 20), // Spacer between buttons
+                      // Button for third article
+                      _buildArticleButton(
+                        'https://www.nhs.uk/mental-health/self-help/guides-tools-and-activities/five-steps-to-mental-wellbeing/',
+                        '5 steps to mental wellbeing\nBy: NHS.uk',
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

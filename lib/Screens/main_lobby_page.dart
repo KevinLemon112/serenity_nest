@@ -47,7 +47,7 @@ class MainLobbyPage extends StatelessWidget {
           ),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 200.0),
+              padding: const EdgeInsets.only(bottom: 220.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

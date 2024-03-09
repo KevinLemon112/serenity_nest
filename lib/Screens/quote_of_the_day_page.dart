@@ -70,7 +70,13 @@ class _QuoteOfTheDayPageState extends State<QuoteOfTheDayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quote of the Day'),
+        title: Text(
+          'Quote of the Day',
+          style: TextStyle(
+            fontSize: 29,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(

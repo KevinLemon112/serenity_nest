@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 class JournalingPage extends StatefulWidget {
   const JournalingPage({Key? key}) : super(key: key);
@@ -13,62 +13,76 @@ class _JournalingPageState extends State<JournalingPage> {
   late TextEditingController _textEditingController;
   late DateTime _selectedDate;
   late bool _isDatabaseInitialized; // Flag to track initialization status
-  late Database _database;
-  String _journalEntry = '';
+  late String _userId; // Logged-in user's ID
+  late CollectionReference _journalEntriesCollection;
 
   @override
   void initState() {
     super.initState();
     _textEditingController = TextEditingController();
     _selectedDate = DateTime.now();
-    _isDatabaseInitialized = false; // Initialize flag
-    _initDatabase().then((_) {
+    _isDatabaseInitialized = false;
+    _initUser();
+  }
+
+  Future<void> _initUser() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
       setState(() {
-        _isDatabaseInitialized = true; // Update flag when initialization completes
+        _userId = user.uid;
+        _journalEntriesCollection = FirebaseFirestore.instance.collection('users').doc(_userId).collection('journalEntries');
+        _isDatabaseInitialized = true;
       });
-      _loadJournalEntry();
-    });
+      await _loadJournalEntryForDate(_selectedDate); // Load journal entry for the selected date
+    }
   }
 
-  Future<void> _initDatabase() async {
-    final String path = join(await getDatabasesPath(), 'journal.db');
-    _database = await openDatabase(
-      path,
-      version: 1,
-      onCreate: (db, version) {
-        return db.execute(
-          'CREATE TABLE journal_entries(date TEXT PRIMARY KEY, entry TEXT)',
-        );
-      },
-    );
-  }
+  Future<void> _loadJournalEntryForDate(DateTime date) async {
+    if (!_isDatabaseInitialized) return;
 
-  Future<void> _loadJournalEntry() async {
-    if (!_isDatabaseInitialized) return; // Check initialization status
-    final List<Map<String, dynamic>> entries = await _database.query(
-      'journal_entries',
-      where: 'date = ?',
-      whereArgs: ['${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}'],
-    );
-    if (entries.isNotEmpty) {
+    // Load the journal entry document for the given date
+    final DocumentSnapshot<Object?> entrySnapshot = await _journalEntriesCollection.doc(_getDateString(date)).get();
+    if (entrySnapshot.exists) {
+      final Map<String, dynamic>? data = entrySnapshot.data() as Map<String, dynamic>?;
+      if (data != null && data.containsKey('entry')) {
+        // Convert Firestore Timestamp to DateTime
+        final DateTime timestamp = (data['timestamp'] as Timestamp).toDate();
+
+        // Check if the loaded entry's date matches the selected date
+        if (_getDateString(timestamp) == _getDateString(date)) {
+          setState(() {
+            _textEditingController.text = data['entry'];
+          });
+        } else {
+          setState(() {
+            _textEditingController.text = ''; // Set text to empty if no entry exists for this date
+          });
+        }
+      }
+    } else {
       setState(() {
-        _journalEntry = entries[0]['entry'];
-        _textEditingController.text = _journalEntry;
+        _textEditingController.text = ''; // Set text to empty if no entry exists for this date
       });
     }
   }
 
   Future<void> _saveJournalEntry() async {
-    if (!_isDatabaseInitialized) return; // Check initialization status
+    if (!_isDatabaseInitialized) return;
     final String journalText = _textEditingController.text;
-    await _database.insert(
-      'journal_entries',
-      {'date': '${_selectedDate.year}-${_selectedDate.month}-${_selectedDate.day}', 'entry': journalText},
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-    setState(() {
-      _journalEntry = journalText;
+
+    // Save the entry with selected date as the key
+    await _journalEntriesCollection.doc(_getDateString(_selectedDate)).set({
+      'entry': journalText,
+      'timestamp': _selectedDate, // Use selected date instead of DateTime.now()
     });
+
+    setState(() {
+      _textEditingController.text = journalText; // Update local state
+    });
+  }
+
+  String _getDateString(DateTime date) {
+    return '${date.year}-${date.month}-${date.day}';
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -81,7 +95,7 @@ class _JournalingPageState extends State<JournalingPage> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
-        _loadJournalEntry();
+        _loadJournalEntryForDate(_selectedDate); // Load journal entry for the selected date
       });
     }
   }
@@ -90,7 +104,13 @@ class _JournalingPageState extends State<JournalingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Journaling'),
+        title: Text(
+          'Journaling',
+          style: TextStyle(
+            fontSize: 29,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -121,7 +141,7 @@ class _JournalingPageState extends State<JournalingPage> {
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black, // Change to your preferred text color
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -153,12 +173,12 @@ class _JournalingPageState extends State<JournalingPage> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    _journalEntry,
+                    _textEditingController.text,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 200), // Add extra space to prevent overflow when keyboard is opened
+                  const SizedBox(height: 200),
                 ],
               ),
             ),
@@ -171,13 +191,6 @@ class _JournalingPageState extends State<JournalingPage> {
   @override
   void dispose() {
     _textEditingController.dispose();
-    _database.close();
     super.dispose();
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: JournalingPage(),
-  ));
 }
