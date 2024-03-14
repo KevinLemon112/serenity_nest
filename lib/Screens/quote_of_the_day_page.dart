@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class QuoteOfTheDayPage extends StatefulWidget {
@@ -27,7 +29,7 @@ class _QuoteOfTheDayPageState extends State<QuoteOfTheDayPage> {
 
     // Check if more than 24 hours have passed since last update
     if (now.difference(lastUpdate).inHours >= 24 || lastUpdate.day != now.day) {
-      final String newQuote = _generateNewQuote();
+      final String newQuote = await _fetchRandomQuote();
       await prefs.setString('quote', newQuote);
       await prefs.setInt('quote_timestamp', now.millisecondsSinceEpoch);
       setState(() {
@@ -40,37 +42,27 @@ class _QuoteOfTheDayPageState extends State<QuoteOfTheDayPage> {
           _quote = storedQuote;
         });
       } else {
-        setState(() {
-          _quote = _generateNewQuote();
+        setState(() async {
+          _quote = await _fetchRandomQuote();
         });
       }
     }
   }
 
-  String _generateNewQuote() {
+  Future<String> _fetchRandomQuote() async {
+    // Fetch a random quote from Firestore
+    final QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection('quotes').get();
+    final List<DocumentSnapshot<Map<String, dynamic>>> documents = snapshot.docs;
     final Random random = Random();
-    return quotes[random.nextInt(quotes.length)];
+    final int index = random.nextInt(documents.length);
+    return documents[index].get('text');
   }
-
-  final List<String> quotes = [
-    "Believe you can and you're halfway there. -Theodore Roosevelt",
-    "The only way to do great work is to love what you do. -Steve Jobs",
-    "Life is what happens when you're busy making other plans. -John Lennon",
-    "In the end, it's not the years in your life that count. It's the life in your years. -Abraham Lincoln",
-    "The only limit to our realization of tomorrow will be our doubts of today. -Franklin D. Roosevelt",
-    "You are never too old to set another goal or to dream a new dream. -C.S. Lewis",
-    "Spread love everywhere you go. Let no one ever come to you without leaving happier. -Mother Teresa",
-    "The future belongs to those who believe in the beauty of their dreams. -Eleanor Roosevelt",
-    "Success is not final, failure is not fatal: It is the courage to continue that counts. -Winston Churchill",
-    "Try to be a rainbow in someone's cloud. -Maya Angelou",
-    "The best way to predict the future is to create it. -Peter Drucker"
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Quote of the Day',
           style: TextStyle(
             fontSize: 29,
