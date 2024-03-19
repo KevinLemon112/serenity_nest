@@ -14,6 +14,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repeatPasswordController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController(); // Add username controller
   bool isDarkMode = false;
 
   void toggleDarkMode() {
@@ -98,6 +99,19 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 style: TextStyle(color: textFieldTextColor),
               ),
               const SizedBox(height: 16.0),
+              // Username TextField
+              TextField(
+                controller: usernameController,
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  filled: true,
+                  fillColor: textFieldBackground,
+                  border: const OutlineInputBorder(),
+                  labelStyle: TextStyle(color: textColor),
+                ),
+                style: TextStyle(color: textFieldTextColor),
+              ),
+              const SizedBox(height: 16.0),
               // Create Account Button
               ElevatedButton(
                 onPressed: () async {
@@ -128,7 +142,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     // Store additional user information in Firestore
                     await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
                       'email': emailController.text,
-                      'displayName': '', // Add display name if needed
+                      'displayName': usernameController.text, // Set username as displayName
                     });
 
                     // Show account creation success message

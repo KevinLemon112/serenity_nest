@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResourcesPage extends StatelessWidget {
-  const ResourcesPage({Key? key});
+  const ResourcesPage({Key? key}) : super(key: key);
 
   void _launchURL(String url) async {
     Uri uri = Uri.parse(url);
@@ -17,16 +17,21 @@ class ResourcesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Resources',
+        title: const Text(
+          '      Resources',
           style: TextStyle(
-            fontSize: 29,
+            fontSize: 32,
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
+        backgroundColor: Colors.transparent, // Make app bar transparent
+        elevation: 0, // Remove app bar elevation
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      extendBodyBehindAppBar: true, // Extend background behind app bar
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
               'https://wallpapercave.com/wp/wp11299772.jpg',
