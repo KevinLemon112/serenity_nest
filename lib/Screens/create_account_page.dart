@@ -33,6 +33,12 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, size: 35, color: textColor), // Adjust the size as needed
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: Row(
           children: [
             Text(

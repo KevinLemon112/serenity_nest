@@ -103,19 +103,28 @@ class _JournalingPageState extends State<JournalingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true, // Extend background behind app bar
       appBar: AppBar(
-        title: Text(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, size: 37, color: Colors.black), // Adjust the size as needed
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: const Text(
           'Journaling',
           style: TextStyle(
-            fontSize: 29,
+            fontSize: 35,
             fontWeight: FontWeight.bold,
           ),
         ),
+        backgroundColor: Colors.transparent, // Make app bar transparent
+        elevation: 0, // Remove app bar elevation
       ),
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
                   'https://i.pinimg.com/736x/b5/7a/d4/b57ad4feb1bc7dae03cac241c752c924.jpg',
@@ -128,7 +137,7 @@ class _JournalingPageState extends State<JournalingPage> {
           ),
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16.0, 112.0, 16.0, 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -148,17 +157,19 @@ class _JournalingPageState extends State<JournalingPage> {
                       const Icon(Icons.calendar_today),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 0),
                   TextField(
                     controller: _textEditingController,
                     maxLines: null,
                     decoration: const InputDecoration(
                       hintText: 'Write your journal entry here...',
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black, width: 2.0), // Set the border color and thickness
+                      ),
                       contentPadding: EdgeInsets.all(10),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 17),
                   ElevatedButton(
                     onPressed: _saveJournalEntry,
                     child: const Text('Save'),

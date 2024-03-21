@@ -61,14 +61,23 @@ class _QuoteOfTheDayPageState extends State<QuoteOfTheDayPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true, // Extend background behind app bar
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, size: 37, color: Colors.black), // Adjust the size as needed
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: const Text(
           'Quote of the Day',
           style: TextStyle(
-            fontSize: 29,
+            fontSize: 35,
             fontWeight: FontWeight.bold,
           ),
         ),
+        backgroundColor: Colors.transparent, // Make app bar transparent
+        elevation: 0, // Remove app bar elevation
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -80,12 +89,13 @@ class _QuoteOfTheDayPageState extends State<QuoteOfTheDayPage> {
         ),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 150.0, 16.0, 16.0),
             child: Text(
               _quote,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 18,
+                height: 1.5,
                 fontStyle: FontStyle.italic,
                 color: Colors.white, // Adjust text color for better readability
               ),

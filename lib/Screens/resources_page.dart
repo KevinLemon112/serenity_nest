@@ -17,10 +17,16 @@ class ResourcesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, size: 35, color: Colors.white), // Adjust the size as needed
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: const Text(
-          '      Resources',
+          '     Resources',
           style: TextStyle(
-            fontSize: 32,
+            fontSize: 35,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),

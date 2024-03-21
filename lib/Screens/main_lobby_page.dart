@@ -51,7 +51,7 @@ class MainLobbyPage extends StatelessWidget {
                     children: <Widget>[
                       // Display Welcome message and username
                       _buildWelcomeMessage(),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 40),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(

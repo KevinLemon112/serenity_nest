@@ -5,7 +5,7 @@ import 'create_account_page.dart';
 import 'main_lobby_page.dart'; // Import the Main Lobby class
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelText: 'Email',
                     filled: true,
                     fillColor: textFieldBackground,
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     labelStyle: TextStyle(color: textColor),
                   ),
                   style: TextStyle(color: textFieldTextColor),
@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelText: 'Password',
                     filled: true,
                     fillColor: textFieldBackground,
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     labelStyle: TextStyle(color: textColor),
                   ),
                   obscureText: true,
@@ -96,11 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      UserCredential userCredential =
-                      await FirebaseAuth.instance.signInWithEmailAndPassword(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      );
                       // Handle successful authentication, e.g., navigate to another screen
                       Navigator.pushReplacement(
                         context,
@@ -127,12 +122,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     }
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: buttonColor, // Button color
+                  ),
                   child: Text(
                     'Login',
                     style: TextStyle(color: textColor),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: buttonColor, // Button color
                   ),
                 ),
                 TextButton(
@@ -140,11 +135,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Navigate to create account screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CreateAccountPage()),
+                      MaterialPageRoute(builder: (context) => const CreateAccountPage()),
                     );
                   },
                   child: Container(
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       color: createAccountButtonColor, // Button color
@@ -162,11 +157,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
                     if (googleUser != null) {
                       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-                      final AuthCredential credential = GoogleAuthProvider.credential(
+                      GoogleAuthProvider.credential(
                         accessToken: googleAuth.accessToken,
                         idToken: googleAuth.idToken,
                       );
-                      final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
                       // Handle successful authentication, e.g., navigate to another screen
                       Navigator.pushReplacement(
                         context,
@@ -190,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: LoginScreen(),
   ));
 }
