@@ -36,7 +36,7 @@ class MeditationPageState extends State<MeditationPage> {
         extendBodyBehindAppBar: true, // Extend background behind app bar
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, size: 45, color: Colors.black), // Adjust the size as needed
+            icon: const Icon(Icons.arrow_back, size: 45, color: Colors.black), // Adjust the size as needed
             onPressed: () {
               Navigator.of(context).pop();
             },

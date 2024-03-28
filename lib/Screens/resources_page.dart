@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResourcesPage extends StatelessWidget {
-  const ResourcesPage({Key? key}) : super(key: key);
+  const ResourcesPage({super.key});
 
   void _launchURL(String url) async {
     Uri uri = Uri.parse(url);

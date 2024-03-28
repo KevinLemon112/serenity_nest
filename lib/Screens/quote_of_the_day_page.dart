@@ -8,10 +8,10 @@ class QuoteOfTheDayPage extends StatefulWidget {
   const QuoteOfTheDayPage({super.key});
 
   @override
-  _QuoteOfTheDayPageState createState() => _QuoteOfTheDayPageState();
+  QuoteOfTheDayPageState createState() => QuoteOfTheDayPageState();
 }
 
-class _QuoteOfTheDayPageState extends State<QuoteOfTheDayPage> {
+class QuoteOfTheDayPageState extends State<QuoteOfTheDayPage> {
   late String _quote = '';
 
   @override
@@ -64,7 +64,7 @@ class _QuoteOfTheDayPageState extends State<QuoteOfTheDayPage> {
       extendBodyBehindAppBar: true, // Extend background behind app bar
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, size: 37, color: Colors.black), // Adjust the size as needed
+          icon: const Icon(Icons.arrow_back, size: 37, color: Colors.black), // Adjust the size as needed
           onPressed: () {
             Navigator.of(context).pop();
           },

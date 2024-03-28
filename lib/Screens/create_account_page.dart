@@ -4,13 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'main_lobby_page.dart'; // Import the MainLobbyPage class
 
 class CreateAccountPage extends StatefulWidget {
-  const CreateAccountPage({Key? key}) : super(key: key);
+  const CreateAccountPage({super.key});
 
   @override
-  _CreateAccountPageState createState() => _CreateAccountPageState();
+  CreateAccountPageState createState() => CreateAccountPageState();
 }
 
-class _CreateAccountPageState extends State<CreateAccountPage> {
+class CreateAccountPageState extends State<CreateAccountPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repeatPasswordController = TextEditingController();
@@ -166,7 +166,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     );
                   } catch (e) {
                     // Handle account creation errors
-                    print('Error creating account: $e');
                     String errorMessage = 'An error occurred. Please try again.';
                     if (e is FirebaseAuthException) {
                       switch (e.code) {
@@ -185,12 +184,12 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     );
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: buttonColor,
+                ),
                 child: Text(
                   'Create Account',
                   style: TextStyle(color: textColor),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: buttonColor,
                 ),
               ),
             ],

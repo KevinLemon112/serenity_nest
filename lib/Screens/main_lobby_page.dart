@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth for us
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Cloud Firestore for database interaction
 
 class MainLobbyPage extends StatelessWidget {
-  const MainLobbyPage({Key? key});
+  const MainLobbyPage({super.key});
 
   @override
   Widget build(BuildContext context) {

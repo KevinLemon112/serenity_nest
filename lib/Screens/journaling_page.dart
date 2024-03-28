@@ -3,13 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class JournalingPage extends StatefulWidget {
-  const JournalingPage({Key? key}) : super(key: key);
+  const JournalingPage({super.key});
 
   @override
-  _JournalingPageState createState() => _JournalingPageState();
+  JournalingPageState createState() => JournalingPageState();
 }
 
-class _JournalingPageState extends State<JournalingPage> {
+class JournalingPageState extends State<JournalingPage> {
   late TextEditingController _textEditingController;
   late DateTime _selectedDate;
   late bool _isDatabaseInitialized; // Flag to track initialization status
