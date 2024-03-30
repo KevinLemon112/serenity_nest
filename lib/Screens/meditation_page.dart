@@ -36,7 +36,11 @@ class MeditationPageState extends State<MeditationPage> {
         extendBodyBehindAppBar: true, // Extend background behind app bar
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, size: 45, color: Colors.black), // Adjust the size as needed
+            icon: const Icon(
+              Icons.arrow_back,
+              size: 45,
+            ),
+            color: _selectedSound == 'No Noise' ? Colors.white : Colors.black,
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -248,7 +252,7 @@ class MeditationPageState extends State<MeditationPage> {
         // Stop the audio if it's playing
         _audioPlayer.stop();
         // Play the "bell.mp3" asset file
-        _audioPlayer.play(AssetSource('bell.mp3'));
+        _audioPlayer.play(AssetSource('sounds/bell.mp3'));
       }
     });
     if (_remainingTimeInSeconds > 0) {
@@ -282,11 +286,11 @@ class MeditationPageState extends State<MeditationPage> {
   String? _getAudioPathForSound(String sound) {
     switch (sound) {
       case 'Rain':
-        return 'rain.mp3'; // Adjust the path based on the actual location of your audio files
+        return 'sounds/rain.mp3'; // Adjust the path based on the actual location of your audio files
       case 'Wind':
-        return 'wind.mp3';
+        return 'sounds/wind.mp3';
       case 'Garden':
-        return 'garden.mp3';
+        return 'sounds/garden.mp3';
       case 'No Noise':
         return null;
     }
