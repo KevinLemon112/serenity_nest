@@ -2,17 +2,30 @@
   "project_info": {
     "project_number": "552186026922",
     "project_id": "serenitynest-6fdb1",
-    "storage_bucket": "serenretynest-6fdb1.appspot.com"
+    "storage_bucket": "serenitynest-6fdb1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:552186026922:android:544d0555069e45734829d3",
+        "mobilesdk_app_id": "1:552186026922:android:fe74665ccc5aaae54829d3",
         "android_client_info": {
-          "package_name": "com.KevinB.serenity_nest"
+          "package_name": "SerenityNest.package"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "552186026922-u1o48roupe5rq6p7hk4cm9bva8s26aav.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "SerenityNest.package",
+            "certificate_hash": "a49593fd1f9dcfaa8c4cd7ec9f9185f359623ae5"
+          }
+        },
+        {
+          "client_id": "552186026922-cpuc9t52uog7muavqpdbc0mfopqtrmk5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDDfa0ROmyDkxdW6OtOujIpIicS7mEXn0g"
@@ -20,7 +33,63 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552186026922-cpuc9t52uog7muavqpdbc0mfopqtrmk5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "552186026922-f653qfugiko1cp5tft9hgu6feu7n9apd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.KevinB.serenityNest.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552186026922:android:544d0555069e45734829d3",
+        "android_client_info": {
+          "package_name": "com.KevinB.serenity_nest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "552186026922-3ssk88m556s1r4tq7fmjfjofvr1bjans.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.KevinB.serenity_nest",
+            "certificate_hash": "a49593fd1f9dcfaa8c4cd7ec9f9185f359623ae5"
+          }
+        },
+        {
+          "client_id": "552186026922-cpuc9t52uog7muavqpdbc0mfopqtrmk5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDfa0ROmyDkxdW6OtOujIpIicS7mEXn0g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "552186026922-cpuc9t52uog7muavqpdbc0mfopqtrmk5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "552186026922-f653qfugiko1cp5tft9hgu6feu7n9apd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.KevinB.serenityNest.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }

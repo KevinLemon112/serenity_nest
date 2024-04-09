@@ -88,6 +88,9 @@ class MeditationPageState extends State<MeditationPage> {
                     if (_chosen) {
                       _startAudio();
                       _showAppBarTitle = false; // Hide the app bar title
+                      _timer.cancel();
+                      _remainingTimeInSeconds = _selectedDuration! * 60;
+                      _startTimer();
                     }
                     _soundSelected = true; // Indicate that a sound is selected
                   });

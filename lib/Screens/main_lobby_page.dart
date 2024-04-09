@@ -8,13 +8,15 @@ import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth for us
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Cloud Firestore for database interaction
 
 class MainLobbyPage extends StatelessWidget {
-  const MainLobbyPage({super.key});
+  final String? userName; // Add this line
+
+  const MainLobbyPage({super.key, this.userName});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
+        preferredSize: const Size.fromHeight(90.0),
         child: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -51,7 +53,7 @@ class MainLobbyPage extends StatelessWidget {
                     children: <Widget>[
                       // Display Welcome message and username
                       _buildWelcomeMessage(),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 65),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -151,7 +153,7 @@ class MainLobbyPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 60),
                       ElevatedButton(
                         onPressed: () {
                           // Navigate back to the login page
@@ -206,8 +208,12 @@ class MainLobbyPage extends StatelessWidget {
                   // If data is loaded successfully
                   final Map<String, dynamic>? userData = snapshot.data!.data() as Map<String, dynamic>?;
                   final String? displayName = userData?['displayName']; // Get the displayName from the fetched data
+
+                  // Use userName if available, otherwise use displayName
+                  final String welcomeMessage = userName ?? displayName ?? 'SerenityNest User';
+
                   return Text(
-                    '\nWelcome ${displayName ?? ''}',
+                    '\nWelcome $welcomeMessage',
                     style: const TextStyle(
                       fontSize: 25.0,
                       fontStyle: FontStyle.italic,

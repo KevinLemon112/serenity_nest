@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> signInWithGoogle() async {
+  Future<void> signInWithGoogle(BuildContext context) async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       if (googleUser != null) {
@@ -66,12 +66,15 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         // Sign in with the credential
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+        // Get the user's display name from Google account
+        String? userName = googleUser.displayName;
 
         // Navigate to the main lobby page on successful sign-in
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const MainLobbyPage()),
+          MaterialPageRoute(builder: (context) => MainLobbyPage(userName: userName)),
         );
       }
     } catch (e) {
@@ -116,8 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
     Color backgroundColor = isDarkMode ? Colors.black : Colors.white;
     Color textColor = isDarkMode ? Colors.white : Colors.black;
     Color buttonColor = isDarkMode ? Colors.grey.shade600 : Colors.blue;
-    Color createAccountButtonColor = isDarkMode ? Colors.grey.shade600 : Colors.yellow;
-    Color googleButtonColor = isDarkMode ? Colors.grey.shade600 : Colors.green;
     Color textFieldBackground = isDarkMode ? Colors.grey.shade600 : Colors.grey.shade100;
     Color textFieldTextColor = isDarkMode ? Colors.white : Colors.black;
 
@@ -225,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 16.0),
                   // Google sign-in button
                   ElevatedButton.icon(
-                    onPressed: signInWithGoogle,
+                    onPressed: () => signInWithGoogle(context),
                     icon: Icon(Icons.login, color: textColor),
                     label: Text('Sign in with Google', style: TextStyle(color: textColor)),
                     style: ElevatedButton.styleFrom(

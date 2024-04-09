@@ -7,6 +7,7 @@ void main() async{
   // Ensure that Firebase is initialized
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: "serenitynest-6fdb1",
     options: DefaultFirebaseOptions.currentPlatform,
   );
 

@@ -6,13 +6,12 @@ class ResourcesPage extends StatelessWidget {
 
   void _launchURL(String url) async {
     Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
+    try {
       await launchUrl(uri);
-    } else {
-      throw 'Could not launch $url';
+    } catch (e) {
+      print('Error launching URL: $e');
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +23,7 @@ class ResourcesPage extends StatelessWidget {
           },
         ),
         title: const Text(
-          '     Resources',
+          '    Resources',
           style: TextStyle(
             fontSize: 35,
             fontWeight: FontWeight.bold,
@@ -181,7 +180,7 @@ class ResourcesPage extends StatelessWidget {
               child: Text(
                 title,
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white, fontSize: 13)
               ),
             ),
           ],
