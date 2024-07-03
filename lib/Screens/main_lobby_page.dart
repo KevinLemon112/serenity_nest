@@ -15,6 +15,7 @@ class MainLobbyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(90.0),
         child: AppBar(
@@ -47,13 +48,13 @@ class MainLobbyPage extends StatelessWidget {
               ),
               child: Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 100.0),
+                  padding: const EdgeInsets.only(bottom: 180.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       // Display Welcome message and username
                       _buildWelcomeMessage(),
-                      const SizedBox(height: 65),
+                      const SizedBox(height: 80),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
