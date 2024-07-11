@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'create_account_page.dart';
 import 'main_lobby_page.dart'; // Import the Main Lobby class
+import 'account_help.dart'; // Import the Account Help page
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -81,34 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to sign in with Google. Please try again.'),
-        ),
-      );
-    }
-  }
-
-  Future<void> sendResetPasswordEmail() async {
-    final String email = emailController.text.trim();
-
-    if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter an email address in the email text box before clicking the reset password button.'),
-        ),
-      );
-      return; // Exit the method if email is empty
-    }
-
-    try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Password reset email sent. Check your email inbox.'),
-        ),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to send password reset email. Please try again.'),
         ),
       );
     }
@@ -211,15 +184,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 16.0),
-                  // Reset password button
+                  // Account Help button
                   TextButton(
-                    onPressed: sendResetPasswordEmail,
+                    onPressed: () {
+                      // Navigate to Account Help page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AccountHelpPage()),
+                      );
+                    },
                     style: TextButton.styleFrom(
                       backgroundColor: isDarkMode ? Colors.grey.shade600 : Colors.red, // Button color
                       padding: const EdgeInsets.all(16.0),
                     ),
                     child: Text(
-                      'Reset Password',
+                      'Account Help',
                       style: TextStyle(color: textColor),
                     ),
                   ),

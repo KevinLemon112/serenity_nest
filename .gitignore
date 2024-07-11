@@ -42,3 +42,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# key.properties file for KeyStore
+key.properties
+
+config.json

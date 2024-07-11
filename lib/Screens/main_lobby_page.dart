@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth for us
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Cloud Firestore for database interaction
 
 class MainLobbyPage extends StatelessWidget {
-  final String? userName; // Add this line
+  final String? userName;
 
   const MainLobbyPage({super.key, this.userName});
 
@@ -34,158 +34,154 @@ class MainLobbyPage extends StatelessWidget {
         ),
       ),
       extendBodyBehindAppBar: true, // Extend background behind app bar
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                    'https://www.pixelstalk.net/wp-content/uploads/images3/Star-Wallpaper-for-iPhone-8.jpg',
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 180.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      // Display Welcome message and username
-                      _buildWelcomeMessage(),
-                      const SizedBox(height: 80),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const MeditationPage()),
-                          );
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Image.network(
-                                'https://storage.prompt-hunt.workers.dev/clgipn2na0019jz08n77lxw6h_0.jpeg',
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            const Text('Meditation'),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 22),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const JournalingPage()),
-                          );
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Image.network(
-                                'https://img.goodfon.com/wallpaper/big/e/72/writing-pen-metal-paper.jpg',
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            const Text('Journaling'),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 22),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const QuoteOfTheDayPage()),
-                          );
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Image.network(
-                                'https://www.ourmindfullife.com/wp-content/uploads/2020/11/Positive-quote-wallpapers-for-phone-Ourmindfullife.com-12.jpg',
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            const Text('Quote of\nthe Day'),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 22),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const ResourcesPage()),
-                          );
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Image.network(
-                                'https://wallpapercave.com/wp/wp6608514.jpg',
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            const Text('Resources'),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 60),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Navigate back to the login page
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => const LoginScreen()),
-                                (route) => false, // Remove all routes below the login page
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                          backgroundColor: Colors.red, // Change the button color
-                        ),
-                        child: const Text(
-                          'Sign Out',
-                          style: TextStyle(
-                            color: Colors.white, // Change the text color
-                            fontSize: 25.0,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(
+              'https://www.pixelstalk.net/wp-content/uploads/images3/Star-Wallpaper-for-iPhone-8.jpg',
+            ),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 180.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _buildWelcomeMessage(),
+                  const SizedBox(height: 80),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MeditationPage()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Image.network(
+                            'https://storage.prompt-hunt.workers.dev/clgipn2na0019jz08n77lxw6h_0.jpeg',
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 10),
+                        const Text('Meditation'),
+                      ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 22),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const JournalingPage()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Image.network(
+                            'https://img.goodfon.com/wallpaper/big/e/72/writing-pen-metal-paper.jpg',
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        const Text('Journaling'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 22),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const QuoteOfTheDayPage()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Image.network(
+                            'https://www.ourmindfullife.com/wp-content/uploads/2020/11/Positive-quote-wallpapers-for-phone-Ourmindfullife.com-12.jpg',
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        const Text('Quote of\nthe Day'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 22),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ResourcesPage()),
+                      );
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Image.network(
+                            'https://wallpapercave.com/wp/wp6608514.jpg',
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        const Text('Resources'),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 60),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                            (route) => false, // Remove all routes below the login page
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                      backgroundColor: Colors.red, // Change the button color
+                    ),
+                    child: const Text(
+                      'Sign Out',
+                      style: TextStyle(
+                        color: Colors.white, // Change the text color
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
@@ -25,16 +27,19 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
+/* def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('android/app/key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-}
+} */
+
+def configFile = rootProject.file('/Users/kevinbabakhani/Library/Mobile Documents/com~apple~CloudDocs/Local Code/serenity_nest/config.json')
+def configJson = new JsonSlurper().parseText(configFile.text)
 
 android {
     namespace "com.KevinB.serenity_nest"
     compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    ndkVersion "26.1.10909125"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -51,7 +56,7 @@ android {
 
     defaultConfig {
         applicationId "com.KevinB.serenity_nest"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -60,10 +65,10 @@ android {
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+            keyAlias configJson.KE_KEY_ALIAS
+            keyPassword configJson.KE_KEY_PASSWORD
+            storeFile file(configJson.KE_STORE_FILE)
+            storePassword configJson.KE_STORE_PASSWORD
         }
     }
 
