@@ -114,7 +114,7 @@ class JournalingPageState extends State<JournalingPage> {
         title: const Text(
           'Journaling',
           style: TextStyle(
-            fontSize: 35,
+            fontSize: 52,
             fontWeight: FontWeight.bold,
           ),
         ),

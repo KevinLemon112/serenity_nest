@@ -38,7 +38,7 @@ def configJson = new JsonSlurper().parseText(configFile.text)
 
 android {
     namespace "com.KevinB.serenity_nest"
-    compileSdk flutter.compileSdkVersion
+    compileSdk 34
     ndkVersion "26.1.10909125"
 
     compileOptions {
@@ -57,7 +57,7 @@ android {
     defaultConfig {
         applicationId "com.KevinB.serenity_nest"
         minSdkVersion 23
-        targetSdkVersion flutter.targetSdkVersion
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled = true

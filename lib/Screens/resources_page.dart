@@ -23,9 +23,9 @@ class ResourcesPage extends StatelessWidget {
           },
         ),
         title: const Text(
-          '    Resources',
+          ' Resources',
           style: TextStyle(
-            fontSize: 35,
+            fontSize: 52,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -93,7 +93,7 @@ class ResourcesPage extends StatelessWidget {
                       // Button for first article
                       _buildArticleButton(
                         'https://www.medicalnewstoday.com/articles/154543',
-                        'What is mental health?\nBy: Adam Felman and Rachel Ann Tee-Melegrito',
+                        'What is mental health?\nBy: Adam Felman \nand Rachel Ann \nTee-Melegrito',
                       ),
                       const SizedBox(height: 20), // Spacer between buttons
                       // Button for second article

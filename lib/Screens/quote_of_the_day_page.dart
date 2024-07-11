@@ -72,7 +72,7 @@ class QuoteOfTheDayPageState extends State<QuoteOfTheDayPage> {
         title: const Text(
           'Quote of the Day',
           style: TextStyle(
-            fontSize: 35,
+            fontSize: 45,
             fontWeight: FontWeight.bold,
           ),
         ),
