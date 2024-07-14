@@ -7,10 +7,10 @@ class AccountHelpPage extends StatefulWidget {
   const AccountHelpPage({super.key});
 
   @override
-  _AccountHelpPageState createState() => _AccountHelpPageState();
+  AccountHelpPageState createState() => AccountHelpPageState();
 }
 
-class _AccountHelpPageState extends State<AccountHelpPage> {
+class AccountHelpPageState extends State<AccountHelpPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isDarkMode = false;
