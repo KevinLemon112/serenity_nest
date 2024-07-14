@@ -123,17 +123,25 @@ class CreateAccountPageState extends State<CreateAccountPage> {
                 onPressed: () async {
                   // Validate email
                   if (!isValidEmail(emailController.text)) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Please enter a valid email'),
-                    ));
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter a valid email'),
+                        ),
+                      );
+                    }
                     return;
                   }
 
                   // Validate password match
                   if (passwordController.text != repeatPasswordController.text) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Passwords do not match'),
-                    ));
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Passwords do not match'),
+                        ),
+                      );
+                    }
                     return;
                   }
 
@@ -146,42 +154,52 @@ class CreateAccountPageState extends State<CreateAccountPage> {
                     );
 
                     // Store additional user information in Firestore
-                    await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(userCredential.user!.uid)
+                        .set({
                       'email': emailController.text,
                       'displayName': usernameController.text, // Set username as displayName
                     });
 
                     // Show account creation success message
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Account Creation Successful'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Account Creation Successful'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
 
-                    // Navigate to the main lobby page after successful account creation
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const MainLobbyPage()),
-                    );
+                      // Navigate to the main lobby page after successful account creation
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MainLobbyPage()),
+                      );
+                    }
                   } catch (e) {
                     // Handle account creation errors
-                    String errorMessage = 'An error occurred. Please try again.';
+                    String errorMessage =
+                        'An error occurred. Please try again.';
                     if (e is FirebaseAuthException) {
                       switch (e.code) {
                         case 'email-already-in-use':
-                          errorMessage = 'An account already exists with this email.';
+                          errorMessage =
+                          'An account already exists with this email.';
                           break;
                         case 'weak-password':
                           errorMessage = 'The password is too weak.';
                           break;
                       }
                     }
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(errorMessage),
-                      ),
-                    );
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(errorMessage),
+                        ),
+                      );
+                    }
                   }
                 },
                 style: ElevatedButton.styleFrom(

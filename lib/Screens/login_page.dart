@@ -33,11 +33,13 @@ class _LoginScreenState extends State<LoginScreen> {
         password: password,
       );
 
-      // Navigate to the main lobby page on successful sign-in
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainLobbyPage()),
-      );
+      if (mounted) {
+        // Navigate to the main lobby page on successful sign-in
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainLobbyPage()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       // Handle authentication errors
       String errorMessage = 'An error occurred. Please try again.';
@@ -48,11 +50,13 @@ class _LoginScreenState extends State<LoginScreen> {
         errorMessage = 'Invalid password.';
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage),
+          ),
+        );
+      }
     }
   }
 
@@ -72,18 +76,22 @@ class _LoginScreenState extends State<LoginScreen> {
         // Get the user's display name from Google account
         String? userName = googleUser.displayName;
 
-        // Navigate to the main lobby page on successful sign-in
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MainLobbyPage(userName: userName)),
-        );
+        if (mounted) {
+          // Navigate to the main lobby page on successful sign-in
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainLobbyPage(userName: userName)),
+          );
+        }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to sign in with Google. Please try again.'),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to sign in with Google. Please try again.'),
+          ),
+        );
+      }
     }
   }
 

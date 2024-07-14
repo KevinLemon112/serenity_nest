@@ -26,11 +26,13 @@ class AccountHelpPageState extends State<AccountHelpPage> {
     final String password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter both email and password before attempting to reset the password.'),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please enter both email and password before attempting to reset the password.'),
+          ),
+        );
+      }
       return; // Exit the method if email or password is empty
     }
 
@@ -50,48 +52,54 @@ class AccountHelpPageState extends State<AccountHelpPage> {
 
       if (documents.isEmpty) {
         // Email does not exist
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('No account found with this email.'),
-          ),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('No account found with this email.'),
+            ),
+          );
+        }
         return;
       }
 
       // Email exists, send the reset password email
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Password reset email sent. Check your email inbox (and spam as well).'),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Password reset email sent. Check your email inbox (and spam as well).'),
+          ),
+        );
+      }
     } catch (e) {
-      if (e is FirebaseAuthException) {
-        if (e.code == 'user-mismatch') {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('You have been signed out. Please login again before attempting.'),
-            ),
-          );
-        } else if (e.code == 'invalid-credential') {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Invalid credential provided. Please try again.'),
-            ),
-          );
+      if (mounted) {
+        if (e is FirebaseAuthException) {
+          if (e.code == 'user-mismatch') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('You have been signed out. Please login again before attempting.'),
+              ),
+            );
+          } else if (e.code == 'invalid-credential') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Invalid credential provided. Please try again.'),
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Failed to send password reset email. Please try again.'),
+              ),
+            );
+          }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Failed to send password reset email. Please try again.'),
+              content: Text('An unexpected error occurred. Please try again later.'),
             ),
           );
         }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('An unexpected error occurred. Please try again later.'),
-          ),
-        );
       }
     }
   }
@@ -101,11 +109,13 @@ class AccountHelpPageState extends State<AccountHelpPage> {
     final String password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter both email and password before attempting to delete the account.'),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please enter both email and password before attempting to delete the account.'),
+          ),
+        );
+      }
       return; // Exit the method if email or password is empty
     }
 
@@ -116,31 +126,35 @@ class AccountHelpPageState extends State<AccountHelpPage> {
       await user?.reauthenticateWithCredential(credential);
 
       await user?.delete();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Account deleted successfully.'),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Account deleted successfully.'),
+          ),
+        );
 
-      // Navigate back to the login screen
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-            (route) => false, // Remove all routes below the login page
-      );
+        // Navigate back to the login screen
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+              (route) => false, // Remove all routes below the login page
+        );
+      }
     } catch (e) {
-      if (e is FirebaseAuthException && e.code == 'invalid-credential') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Incorrect password. Please try again.'),
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to delete account. Please try again.'),
-          ),
-        );
+      if (mounted) {
+        if (e is FirebaseAuthException && e.code == 'invalid-credential') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Incorrect password. Please try again.'),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Failed to delete account. Please try again.'),
+            ),
+          );
+        }
       }
     }
   }

@@ -9,7 +9,7 @@ class ResourcesPage extends StatelessWidget {
     try {
       await launchUrl(uri);
     } catch (e) {
-      print('Error launching URL: $e');
+      debugPrint('Error launching URL: $e');
     }
   }
   @override
