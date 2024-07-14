@@ -70,7 +70,7 @@ class AccountHelpPageState extends State<AccountHelpPage> {
         if (e.code == 'user-mismatch') {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('You have been signed out. Please sign in again.'),
+              content: Text('You have been signed out. Please login again before attempting.'),
             ),
           );
         } else if (e.code == 'invalid-credential') {
