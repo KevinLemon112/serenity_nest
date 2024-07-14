@@ -62,7 +62,7 @@ class AccountHelpPageState extends State<AccountHelpPage> {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Password reset email sent. Check your email inbox.'),
+          content: Text('Password reset email sent. Check your email inbox (and spam as well).'),
         ),
       );
     } catch (e) {
