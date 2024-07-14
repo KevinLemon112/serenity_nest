@@ -4,7 +4,7 @@ import 'login_page.dart'; // Import the LoginScreen class
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AccountHelpPage extends StatefulWidget {
-  const AccountHelpPage({Key? key}) : super(key: key);
+  const AccountHelpPage({super.key});
 
   @override
   _AccountHelpPageState createState() => _AccountHelpPageState();
