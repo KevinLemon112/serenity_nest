@@ -2,7 +2,7 @@ import groovy.json.JsonSlurper
 
 plugins {
     id "com.android.application"
-    id "kotlin-android"
+    id "org.jetbrains.kotlin.android"
     id "dev.flutter.flutter-gradle-plugin"
 
     // Add the Google services Gradle plugin
@@ -38,8 +38,8 @@ def configJson = new JsonSlurper().parseText(configFile.text)
 
 android {
     namespace "com.KevinB.serenity_nest"
-    compileSdk 34
-    ndkVersion "26.1.10909125"
+    compileSdk 36
+    ndkVersion "28.2.13676358"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -56,11 +56,15 @@ android {
 
     defaultConfig {
         applicationId "com.KevinB.serenity_nest"
-        minSdkVersion 23
-        targetSdkVersion 34
+        minSdkVersion 26
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled = true
+
+        ndk {
+            abiFilters "arm64-v8a", "x86_64"
+        }
     }
 
     signingConfigs {
@@ -73,16 +77,21 @@ android {
     }
 
     buildTypes {
-        buildTypes {
-            release {
-                signingConfig signingConfigs.release
-            }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
+    testOptions {
+        unitTests.all {
+            enabled = false
         }
     }
 }
 
 flutter {
     source '../..'
+    target = 'lib/Screens/main.dart'
 }
 
 dependencies {

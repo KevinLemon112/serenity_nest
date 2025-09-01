@@ -1,0 +1,15 @@
+{
+  "name": "serenity_nest",
+  "version": "1.0.0",
+  "description": "\"SerenityNest is a Flutter application that provides mental health help.\"",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin Babakhani",
+  "license": "ISC"
+}
